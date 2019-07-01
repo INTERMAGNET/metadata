@@ -4,11 +4,13 @@
  */
 
 import React from 'react';
-
 import { Col } from 'react-bootstrap';
 
-import ObservatoriesContext from '../contexts/observatories-context';
+// Components
 import ObservatoriesMap from '../components/maps/ObservatoriesMap';
+
+// Hooks
+import ObservatoriesContext from '../contexts/observatories-context';
 
 const Observatories = () => {
   return (

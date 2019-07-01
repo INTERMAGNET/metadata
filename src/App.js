@@ -1,26 +1,33 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+/**
+ * @module App
+ * @author Charles Blais, Natural Resources Canada <charles.blais@canada.ca>
+ */
 
+// import the CSS list
 import './App.css';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-table/react-table.css';
 import 'leaflet/dist/leaflet.css';
 
+import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, Row } from 'react-bootstrap';
 
-import ObservatoriesContext from './contexts/observatories-context';
-import InstitutesContext from './contexts/institutes-context';
-import ContactsContext from './contexts/contacts-context';
-import DefinitiveContext from './contexts/definitive-context';
+// Hooks
 import useMetaDataApi from './hooks/useMetaDataApi';
 
+// Components
 import Loader from './components/Loader';
 import ObservatoriesMap from './containers/ObservatoriesMap';
 import ObservatoriesTable from './containers/ObservatoriesTable';
 import DefinitivesTable from './containers/DefinitivesTable';
 
+// Contexts
+import ObservatoriesContext from './contexts/observatories-context';
+import InstitutesContext from './contexts/institutes-context';
+import ContactsContext from './contexts/contacts-context';
+import DefinitiveContext from './contexts/definitive-context';
 
 const App = () => {
   const [ contactsState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/contacts/?format=json');

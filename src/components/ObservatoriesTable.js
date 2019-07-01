@@ -1,5 +1,5 @@
 /**
- * @module components/StationTable
+ * @module components/ObservatoriesTable
  * @author Charles Blais, Natural Resource Canada <charles.blais@canada.ca>
  *
  * Station Table
@@ -12,12 +12,15 @@ import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import { Button } from 'react-bootstrap';
 
-import 'react-table/react-table.css';
-
 import ObservatoryModal from './modals/ObservatoryModal';
 
 import { COUNTRY_CODES } from '../constants';
 
+/**
+ * Observatory Table
+ * =================
+ * @param {Object} props - see PropTypes 
+ */
 const ObservatoriesTable = (props) => {
   const {
     observatories,
@@ -66,18 +69,22 @@ const ObservatoriesTable = (props) => {
     showModal(true);
   }
 
+  // Define the column information for the react-table
   const columns = [{
     Header: 'IAGA code',
     id: 'iaga',
     accessor: 'iaga',
+    // do a filter as case-incentive
     filterMethod: (filter, row) => row[filter.id] ? row[filter.id].toLowerCase().includes(filter.value.toLowerCase()) : true
   }, {
     Header: 'Name',
     accessor: 'name',
+    // do a filter as case-incentive
     filterMethod: (filter, row) => row[filter.id] ? row[filter.id].toLowerCase().includes(filter.value.toLowerCase()) : true
   }, {
     Header: 'Country',
     accessor: 'country',
+    // do a filter as case-incentive
     filterMethod: (filter, row) => row[filter.id] ? row[filter.id].toLowerCase().includes(filter.value.toLowerCase()) : true
   }, {
     Header: 'Latitude',
@@ -88,6 +95,7 @@ const ObservatoriesTable = (props) => {
   }, {
     Header: 'Status',
     accessor: 'status',
+    // filter as select from the status list
     Filter: ({ filter, onChange }) =>
       <select
         onChange={event => onChange(event.target.value)}
@@ -101,6 +109,7 @@ const ObservatoriesTable = (props) => {
   }, {
     Header: 'GIN',
     accessor: 'gin',
+    // filter as select from the gin list
     Filter: ({ filter, onChange }) =>
       <select
         onChange={event => onChange(event.target.value)}
@@ -114,6 +123,7 @@ const ObservatoriesTable = (props) => {
     Header: 'Details',
     accessor: 'properties.id',
     filterable: false,
+    // when the button is clicked, open the modal
     Cell: row => (<Button onClick={() => handleButtonClick(row)}>view</Button>),
   }];
 
@@ -139,6 +149,9 @@ const ObservatoriesTable = (props) => {
   );
 };
 
+/**
+ * observatories - list of observatories object as stored in BGS
+ */
 ObservatoriesTable.propTypes = {
   observatories: PropTypes.arrayOf(PropTypes.object),
 };

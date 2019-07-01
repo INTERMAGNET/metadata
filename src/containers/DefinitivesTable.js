@@ -1,15 +1,16 @@
 /**
- * @module containers/Definitives
+ * @module containers/DefinitivesTable
  * @author Charles Blais, Natural Resources Canada <charles.blais@canada.ca>
  */
 
 import React, { useState } from 'react';
-
 import { Col } from 'react-bootstrap';
 
+// Hooks
 import DefinitiveContext from '../contexts/definitive-context';
-import DefinitivesTable from '../components/DefinitivesTable';
 
+// Components
+import DefinitivesTable from '../components/DefinitivesTable';
 import ObservatoryMap from '../components/maps/ObservatoriesMap';
 
 const Definitives = () => {

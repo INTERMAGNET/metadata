@@ -1,5 +1,5 @@
 /**
- * @module components/StationTable
+ * @module components/DefinitivesTable
  * @author Charles Blais, Natural Resource Canada <charles.blais@canada.ca>
  *
  * Station Table
