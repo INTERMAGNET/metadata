@@ -7,7 +7,7 @@
  */
 
 // General modules
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import { Button } from 'react-bootstrap';
@@ -17,15 +17,67 @@ import 'react-table/react-table.css';
 import ObservatoryModal from './modals/ObservatoryModal';
 
 
+// create initial state for filter reducer
+const filterInitial = {
+  year: '',
+  republish: '',
+  iaga: ''
+};
+
+// filter reducer
+const filterReducer = (state, action) => {
+  switch (action.type) {
+    case 'setYear':
+      return {...state, year: action.payload};
+    case 'setRepublish':
+      return {...state, republish: action.payload};
+    case 'setIAGA':
+      return {...state, iaga: action.payload};
+    case 'saveFilter':
+      // save the filter returned by react-table into the structure
+      const newState = Object.assign({}, filterInitial);
+      action.payload.forEach((filter) => newState[filter.id] = filter.value);
+      return newState;
+    default:
+      throw new Error();
+  }
+};
+
+// create initial state for modal reducer
+const modalInitial = {
+  show: false,
+  iaga: '',
+}
+
+// modal reducer
+const modalReducer = (state, action) => {
+  switch (action.type) {
+    case 'setShow':
+      return {...state, show: action.payload};
+    case 'setIAGA':
+      return {...state, iaga: action.payload};
+    case 'setModal':
+      return action.payload;
+    default:
+      throw new Error();
+  }
+};
+
+/**
+ * React - Defintives table
+ * @param {Object} props - see PropTypes 
+ */
 const DefinitivesTable = (props) => {
   const {
     definitives,
     setSelectedObservatories,
   } = props;
 
-  const [ show, showModal ] = useState(false);
-  const [ iaga, setIAGA ] = useState('');
-  const [ yearFilter, setYearFilter ] = useState('');
+
+  // reducer state for modal
+  const [ modalState, modalDispatch ] = useReducer(modalReducer, modalInitial);
+  // reducer state for filters
+  const [ filterState, filterDispatch ] = useReducer(filterReducer, filterInitial);
 
   const defs = (definitives) ? definitives : [];
   const data = [];
@@ -63,8 +115,13 @@ const DefinitivesTable = (props) => {
 
   // action on table
   const handleButtonClick = (row) => {
-    setIAGA(row.original.iaga);
-    showModal(true);
+    modalDispatch({
+      type: 'setModal',
+      payload: {
+        show: true,
+        iaga: row.original.iaga,
+      }
+    })
   }
 
   const columns = [{
@@ -74,11 +131,10 @@ const DefinitivesTable = (props) => {
       <select
         onChange={event => {
           onChange(event.target.value);
-          setYearFilter(event.target.value);
           setSelectedObservatories((event.target.value in years) ? years[event.target.value] : []);
         }}
         style={{ width: "100%" }}
-        value={ yearFilter }
+        value={ filterState.year }
       >
         <option value=''>All</option>
         { Object.keys(years).reverse().map((year) => (
@@ -114,14 +170,24 @@ const DefinitivesTable = (props) => {
         resizable
         filtered={[{
           id: 'year',
-          value: yearFilter,
+          value: filterState.year,
+        },{
+          id: 'republish',
+          value: filterState.republish,
+        },{
+          id: 'iaga',
+          value: filterState.iaga,
         }]}
+        onFilteredChange={(filtered) => {
+          // save the state in case of rerender
+          filterDispatch({type: 'saveFilter', payload: filtered});
+        }}
         defaultPageSize={10}
       />
       <ObservatoryModal
-        show={show}
-        onHide={() => showModal(false)}
-        iaga={iaga} />
+        show={modalState.show}
+        onHide={() => modalDispatch({ type: 'setShow', payload: false })}
+        iaga={modalState.iaga} />
     </React.Fragment>
   );
 };
