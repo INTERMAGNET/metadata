@@ -36,7 +36,7 @@ const App = () => {
   const [ intermagnetState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/intermagnet/?format=json');
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Loader
         contactsState={contactsState}
         definitiveState={definitiveState}
@@ -45,7 +45,7 @@ const App = () => {
       />
 
       <Navbar bg="primary" variant="dark" expand="lg">
-        <Navbar.Brand>INTERMAGNET</Navbar.Brand>
+        <Navbar.Brand href="https://intermagnet.github.io/">INTERMAGNET</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
           <Nav className="mr-auto">
