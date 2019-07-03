@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.b84ff754.chunk.css",
-    "main.js": "/static/js/main.7620268e.chunk.js",
-    "main.js.map": "/static/js/main.7620268e.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.8b3fd38b.chunk.css": "/static/css/2.8b3fd38b.chunk.css",
-    "static/js/2.e794ea60.chunk.js": "/static/js/2.e794ea60.chunk.js",
-    "static/js/2.e794ea60.chunk.js.map": "/static/js/2.e794ea60.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.60e84a091cbde01b12c1492c05742a10.js": "/precache-manifest.60e84a091cbde01b12c1492c05742a10.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.8b3fd38b.chunk.css.map": "/static/css/2.8b3fd38b.chunk.css.map",
-    "static/css/main.b84ff754.chunk.css.map": "/static/css/main.b84ff754.chunk.css.map"
+    "main.css": "/intermagnet-metadata-app/static/css/main.b84ff754.chunk.css",
+    "main.js": "/intermagnet-metadata-app/static/js/main.21257f3c.chunk.js",
+    "main.js.map": "/intermagnet-metadata-app/static/js/main.21257f3c.chunk.js.map",
+    "runtime~main.js": "/intermagnet-metadata-app/static/js/runtime~main.045f99f4.js",
+    "runtime~main.js.map": "/intermagnet-metadata-app/static/js/runtime~main.045f99f4.js.map",
+    "static/css/2.8b3fd38b.chunk.css": "/intermagnet-metadata-app/static/css/2.8b3fd38b.chunk.css",
+    "static/js/2.e794ea60.chunk.js": "/intermagnet-metadata-app/static/js/2.e794ea60.chunk.js",
+    "static/js/2.e794ea60.chunk.js.map": "/intermagnet-metadata-app/static/js/2.e794ea60.chunk.js.map",
+    "index.html": "/intermagnet-metadata-app/index.html",
+    "precache-manifest.4a68a4c6b91cd3e4dc5571e82564b60d.js": "/intermagnet-metadata-app/precache-manifest.4a68a4c6b91cd3e4dc5571e82564b60d.js",
+    "service-worker.js": "/intermagnet-metadata-app/service-worker.js",
+    "static/css/2.8b3fd38b.chunk.css.map": "/intermagnet-metadata-app/static/css/2.8b3fd38b.chunk.css.map",
+    "static/css/main.b84ff754.chunk.css.map": "/intermagnet-metadata-app/static/css/main.b84ff754.chunk.css.map"
   }
 }
