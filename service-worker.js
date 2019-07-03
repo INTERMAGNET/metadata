@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/intermagnet-metadata-app/precache-manifest.4a68a4c6b91cd3e4dc5571e82564b60d.js"
+  "/intermagnet-metadata-app/precache-manifest.299faa9ef369369ccfa1f4ba7cfc04a6.js"
 );
 
 self.addEventListener('message', (event) => {
