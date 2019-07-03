@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/intermagnet-metadata-app/static/css/main.b84ff754.chunk.css",
-    "main.js": "/intermagnet-metadata-app/static/js/main.b45e6f79.chunk.js",
-    "main.js.map": "/intermagnet-metadata-app/static/js/main.b45e6f79.chunk.js.map",
-    "runtime~main.js": "/intermagnet-metadata-app/static/js/runtime~main.045f99f4.js",
-    "runtime~main.js.map": "/intermagnet-metadata-app/static/js/runtime~main.045f99f4.js.map",
-    "static/css/2.8b3fd38b.chunk.css": "/intermagnet-metadata-app/static/css/2.8b3fd38b.chunk.css",
-    "static/js/2.e794ea60.chunk.js": "/intermagnet-metadata-app/static/js/2.e794ea60.chunk.js",
-    "static/js/2.e794ea60.chunk.js.map": "/intermagnet-metadata-app/static/js/2.e794ea60.chunk.js.map",
-    "index.html": "/intermagnet-metadata-app/index.html",
-    "precache-manifest.299faa9ef369369ccfa1f4ba7cfc04a6.js": "/intermagnet-metadata-app/precache-manifest.299faa9ef369369ccfa1f4ba7cfc04a6.js",
-    "service-worker.js": "/intermagnet-metadata-app/service-worker.js",
-    "static/css/2.8b3fd38b.chunk.css.map": "/intermagnet-metadata-app/static/css/2.8b3fd38b.chunk.css.map",
-    "static/css/main.b84ff754.chunk.css.map": "/intermagnet-metadata-app/static/css/main.b84ff754.chunk.css.map"
+    "main.css": "/metadata/static/css/main.b84ff754.chunk.css",
+    "main.js": "/metadata/static/js/main.17b65395.chunk.js",
+    "main.js.map": "/metadata/static/js/main.17b65395.chunk.js.map",
+    "runtime~main.js": "/metadata/static/js/runtime~main.5522766b.js",
+    "runtime~main.js.map": "/metadata/static/js/runtime~main.5522766b.js.map",
+    "static/css/2.8b3fd38b.chunk.css": "/metadata/static/css/2.8b3fd38b.chunk.css",
+    "static/js/2.e794ea60.chunk.js": "/metadata/static/js/2.e794ea60.chunk.js",
+    "static/js/2.e794ea60.chunk.js.map": "/metadata/static/js/2.e794ea60.chunk.js.map",
+    "index.html": "/metadata/index.html",
+    "precache-manifest.cd8438427c2a20ce4bd94f706254827e.js": "/metadata/precache-manifest.cd8438427c2a20ce4bd94f706254827e.js",
+    "service-worker.js": "/metadata/service-worker.js",
+    "static/css/2.8b3fd38b.chunk.css.map": "/metadata/static/css/2.8b3fd38b.chunk.css.map",
+    "static/css/main.b84ff754.chunk.css.map": "/metadata/static/css/main.b84ff754.chunk.css.map"
   }
 }
