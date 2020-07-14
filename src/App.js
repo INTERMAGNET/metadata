@@ -10,7 +10,7 @@ import 'react-table/react-table.css';
 import 'leaflet/dist/leaflet.css';
 
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as HashRouter, Route } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, Row } from 'react-bootstrap';
 
@@ -22,6 +22,7 @@ import Loader from './components/Loader';
 import ObservatoriesMap from './containers/ObservatoriesMap';
 import ObservatoriesTable from './containers/ObservatoriesTable';
 import DefinitivesTable from './containers/DefinitivesTable';
+import InstitutesTable from './containers/InstitutesTable';
 
 // Contexts
 import ObservatoriesContext from './contexts/observatories-context';
@@ -36,7 +37,7 @@ const App = () => {
   const [ intermagnetState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/intermagnet/?format=json');
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <HashRouter basename={process.env.PUBLIC_URL}>
       <Loader
         contactsState={contactsState}
         definitiveState={definitiveState}
@@ -50,7 +51,8 @@ const App = () => {
         <Navbar.Collapse>
           <Nav className="mr-auto">
             <LinkContainer to="/map"><Nav.Link>Map of Observatories</Nav.Link></LinkContainer>
-            <LinkContainer to="/list"><Nav.Link>List of Observatories</Nav.Link></LinkContainer>
+            <LinkContainer to="/imos"><Nav.Link>List of Observatories</Nav.Link></LinkContainer>
+            <LinkContainer to="/institutes"><Nav.Link>List of Institutes</Nav.Link></LinkContainer>
             <LinkContainer to="/definitives"><Nav.Link>Definitive Data Catologue</Nav.Link></LinkContainer>
           </Nav>
         </Navbar.Collapse>
@@ -64,7 +66,8 @@ const App = () => {
                   <DefinitiveContext.Provider value={definitiveState.data}>
                     <Route exact path="/" component={ObservatoriesTable} />
                     <Route path="/map" component={ObservatoriesMap} />
-                    <Route path="/list" component={ObservatoriesTable} />
+                    <Route path="/imos" component={ObservatoriesTable} />
+                    <Route path="/institutes" component={InstitutesTable} />
                     <Route path="/definitives" component={DefinitivesTable} />
                   </DefinitiveContext.Provider>
                 </ContactsContext.Provider>
@@ -72,8 +75,7 @@ const App = () => {
             </ObservatoriesContext.Provider>
           </Row>
       </Container>
-
-    </Router>
+    </HashRouter>
   );
 };
 
