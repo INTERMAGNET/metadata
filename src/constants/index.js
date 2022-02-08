@@ -49,7 +49,7 @@ export const COUNTRY_CODES = {
     pk: 'Pakistan',
     pl: 'Poland',
     ro: 'Romania',
-    rs: 'Serbia',
+    rs: 'Repulic of Serbia',
     ru: 'Russia',
     se: 'Sweden',
     sh: 'Saint Helena, Ascension and Tristan da Cunha, British Overseas Territories',
