@@ -40,6 +40,10 @@ const ObservatoriesMap = (props) => {
       { observatoriesStore => {
         const markers = observatories.map(iaga => {
           const observatory = findByKey(observatoriesStore, 'id', iaga);
+          if (Object.keys(observatory).length === 0) {
+            console.warn(`Could not find ${iaga} for marker`)
+            return null;
+          }
           return (<ObservatoryMarker
             key={observatory.id}
             latitude={observatory.latitude}
