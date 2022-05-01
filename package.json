@@ -1,6 +1,6 @@
 {
   "name": "intermagnet-metadata-app",
-  "homepage": "https://intermagnet.github.io/metadata/",
+  "homepage": "/metadata",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

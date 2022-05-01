@@ -10,8 +10,7 @@ import 'react-table/react-table.css';
 import 'leaflet/dist/leaflet.css';
 
 import React from 'react';
-import { BrowserRouter as HashRouter, Route } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import { HashRouter, Route, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row } from 'react-bootstrap';
 
 // Hooks
@@ -37,7 +36,7 @@ const App = () => {
   const [ intermagnetState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/intermagnet/?format=json');
 
   return (
-    <HashRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter basename="/">
       <Loader
         contactsState={contactsState}
         definitiveState={definitiveState}
@@ -50,10 +49,10 @@ const App = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
           <Nav className="mr-auto">
-            <LinkContainer to="/map"><Nav.Link>Map of Observatories</Nav.Link></LinkContainer>
-            <LinkContainer to="/imos"><Nav.Link>List of Observatories</Nav.Link></LinkContainer>
-            <LinkContainer to="/institutes"><Nav.Link>List of Institutes</Nav.Link></LinkContainer>
-            <LinkContainer to="/definitives"><Nav.Link>Definitive Data Catologue</Nav.Link></LinkContainer>
+            <Nav.Link as={Link} to="/map">Map of Observatories</Nav.Link>
+            <Nav.Link as={Link} to="/imos">List of Observatories</Nav.Link>
+            <Nav.Link as={Link} to="/institutes">List of Institutes</Nav.Link>
+            <Nav.Link as={Link} to="/definitives">Definitive Data Catologue</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
