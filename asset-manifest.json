@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "metadata/static/css/main.b84ff754.chunk.css",
-    "main.js": "metadata/static/js/main.fb3f5357.chunk.js",
-    "main.js.map": "metadata/static/js/main.fb3f5357.chunk.js.map",
-    "runtime~main.js": "metadata/static/js/runtime~main.974b70ce.js",
-    "runtime~main.js.map": "metadata/static/js/runtime~main.974b70ce.js.map",
-    "static/css/2.8b3fd38b.chunk.css": "metadata/static/css/2.8b3fd38b.chunk.css",
-    "static/js/2.53d6adc8.chunk.js": "metadata/static/js/2.53d6adc8.chunk.js",
-    "static/js/2.53d6adc8.chunk.js.map": "metadata/static/js/2.53d6adc8.chunk.js.map",
-    "index.html": "metadata/index.html",
-    "precache-manifest.266ced659902c64b328531de2e41a04c.js": "metadata/precache-manifest.266ced659902c64b328531de2e41a04c.js",
-    "service-worker.js": "metadata/service-worker.js",
-    "static/css/2.8b3fd38b.chunk.css.map": "metadata/static/css/2.8b3fd38b.chunk.css.map",
-    "static/css/main.b84ff754.chunk.css.map": "metadata/static/css/main.b84ff754.chunk.css.map"
+    "main.css": "/metadata/static/css/main.b84ff754.chunk.css",
+    "main.js": "/metadata/static/js/main.097d0f9a.chunk.js",
+    "main.js.map": "/metadata/static/js/main.097d0f9a.chunk.js.map",
+    "runtime~main.js": "/metadata/static/js/runtime~main.5522766b.js",
+    "runtime~main.js.map": "/metadata/static/js/runtime~main.5522766b.js.map",
+    "static/css/2.8b3fd38b.chunk.css": "/metadata/static/css/2.8b3fd38b.chunk.css",
+    "static/js/2.53d6adc8.chunk.js": "/metadata/static/js/2.53d6adc8.chunk.js",
+    "static/js/2.53d6adc8.chunk.js.map": "/metadata/static/js/2.53d6adc8.chunk.js.map",
+    "index.html": "/metadata/index.html",
+    "precache-manifest.7f4d3aa75738ba65c5535960eecca9af.js": "/metadata/precache-manifest.7f4d3aa75738ba65c5535960eecca9af.js",
+    "service-worker.js": "/metadata/service-worker.js",
+    "static/css/2.8b3fd38b.chunk.css.map": "/metadata/static/css/2.8b3fd38b.chunk.css.map",
+    "static/css/main.b84ff754.chunk.css.map": "/metadata/static/css/main.b84ff754.chunk.css.map"
   }
 }
