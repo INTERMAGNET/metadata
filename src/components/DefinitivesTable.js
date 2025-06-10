@@ -82,7 +82,7 @@ const DefinitivesTable = (props) => {
   const defs = (definitives) ? definitives : [];
   const data = [];
   
-  defs.forEach( definitive => {
+  defs["intermagnet_catalogue"].forEach( definitive => {
     const year = definitive.id;
     definitive.observatories.forEach( obs => {
       data.push({
@@ -193,8 +193,10 @@ const DefinitivesTable = (props) => {
 };
 
 DefinitivesTable.propTypes = {
-  definitives: PropTypes.arrayOf(PropTypes.object),
-  setSelectedObservatories: PropTypes.func,
+  definitives: PropTypes.shape({
+    intermagnet_catalogue: PropTypes.array
+  }),
+  setSelectedObservatories: PropTypes.func
 };
 
 DefinitivesTable.defaultProps = {

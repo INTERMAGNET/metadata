@@ -29,19 +29,35 @@ import InstitutesContext from './contexts/institutes-context';
 import ContactsContext from './contexts/contacts-context';
 import DefinitiveContext from './contexts/definitive-context';
 
+// Utils
+import getContacts from './utils/get-contacts'
+import getInstDetails from './utils/get-institutes'
+import getObsDetails from './utils/get-observatories'
+
 const App = () => {
-  const [ contactsState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/contacts/?format=json');
-  const [ definitiveState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/definitive/?format=json');
-  const [ institutesState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/institutes/?format=json');
-  const [ intermagnetState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/intermagnet/?format=json');
+  const [ definitiveState ] = useMetaDataApi('https://wdcapi.bgs.ac.uk/metadata/intermagnet-definitive-catalogue');
+  const [ allMetadataState ] = useMetaDataApi('https://wdcapi.bgs.ac.uk/metadata/observatory-metadata');
+  
+  // Check if all data has loaded successfully
+  const isAllDataLoaded = !definitiveState.isLoading &&
+                          !allMetadataState.isLoading &&
+                          !definitiveState.isError &&
+                          !allMetadataState.isError &&
+                          definitiveState.data &&
+                          allMetadataState.data;
+
+  // Only process data if it's loaded
+  const observatoryInstitutes = isAllDataLoaded ? getInstDetails(allMetadataState) : [];
+  const observatoryDetails = isAllDataLoaded ? getObsDetails(allMetadataState) : [];
+  const observatoryContacts = isAllDataLoaded ? getContacts(allMetadataState) : [];
 
   return (
     <HashRouter basename="/">
       <Loader
-        contactsState={contactsState}
+        contactsState={allMetadataState}
         definitiveState={definitiveState}
-        institutesState={institutesState}
-        intermagnetState={intermagnetState}
+        institutesState={allMetadataState}
+        intermagnetState={allMetadataState}
       />
 
       <Navbar bg="primary" variant="dark" expand="lg">
@@ -52,16 +68,17 @@ const App = () => {
             <Nav.Link as={Link} to="/map">Map of Observatories</Nav.Link>
             <Nav.Link as={Link} to="/imos">List of Observatories</Nav.Link>
             <Nav.Link as={Link} to="/institutes">List of Institutes</Nav.Link>
-            <Nav.Link as={Link} to="/definitives">Definitive Data Catologue</Nav.Link>
+            <Nav.Link as={Link} to="/definitives">Definitive Data Catalogue</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
 
-      <Container fluid className='main-content'>
-        <Row>
-          <ObservatoriesContext.Provider value={intermagnetState.data} >
-              <InstitutesContext.Provider value={institutesState.data} >
-                <ContactsContext.Provider value={contactsState.data} >
+      {isAllDataLoaded && (
+        <Container fluid className='main-content'>
+          <Row>
+            <ObservatoriesContext.Provider value={observatoryDetails}>
+              <InstitutesContext.Provider value={observatoryInstitutes}>
+                <ContactsContext.Provider value={observatoryContacts}>
                   <DefinitiveContext.Provider value={definitiveState.data}>
                     <Route exact path="/" component={ObservatoriesTable} />
                     <Route path="/map" component={ObservatoriesMap} />
@@ -73,7 +90,8 @@ const App = () => {
               </InstitutesContext.Provider>
             </ObservatoriesContext.Provider>
           </Row>
-      </Container>
+        </Container>
+      )}
     </HashRouter>
   );
 };
