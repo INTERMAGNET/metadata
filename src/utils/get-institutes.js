@@ -1,13 +1,20 @@
+/**
+ * Extracts and transforms institute details from WDC API response
+ * @param {Object} state - Application state containing observatory data
+ * @author Adam Emsley, British Geological Survey <adam.emsley@bgs.ac.uk>
+**/
 const getInstDetails =  function getInstDetails(state) {
+
+	// get data from JSON
 	const data = state.data.data;
 	const uniqueInstitutes = new Set();
 
 	const result = [];
 
+	// loop over observatories
 	data
+		// filter to get currently open intermagnet observatories
 		.filter(entry =>
-			Array.isArray(entry.intermagnet) &&
-			entry.intermagnet.length > 0 &&
 			!entry.intermagnet[0]['member_to'] &&
 			entry.institutes.length > 0
 		)
@@ -27,6 +34,7 @@ const getInstDetails =  function getInstDetails(state) {
 				const abbr = institute.abbreviation;
 				const link = institute.institute_url;
 
+				// push required structure
 				if (!uniqueInstitutes.has(name)) {
 					uniqueInstitutes.add(name);
 					result.push({
@@ -38,8 +46,9 @@ const getInstDetails =  function getInstDetails(state) {
 				}
 			});
 		});
-
+	
 	return result;
 }
 
-export default getInstDetails
+// export
+export default getInstDetails;

@@ -1,12 +1,20 @@
+/**
+ * Extracts and transforms observatory details from WDC API response
+ * @param {Object} state - Application state containing observatory data
+ * @author Adam Emsley, British Geological Survey <adam.emsley@bgs.ac.uk>
+**/
 const getObsDetails = function getObsDetails(state) {
+
+	// get data from JSON
 	const data = state.data.data || [];
 	const result = [];
 
+	// loop over observatories
 	data.forEach(entry => {
 		const {
 			observatory_iaga_code: iaga,
 			attributes,
-			address = [],
+			address = [], // default to empty array if not found
 			instruments = [],
 			persons = [],
 			intermagnet = [],
@@ -14,14 +22,18 @@ const getObsDetails = function getObsDetails(state) {
 			locations = []
 		} = entry;
 
-		const inter = intermagnet[0];
-		if (!inter) return;
+		// filter by intermagnet observatories
+		if (!intermagnet || intermagnet.length === 0) return;
 
-		let openClosed = 'imo';
-		if (inter.member_to) {
-			openClosed = 'closed';
+		// Find an entry where member_to is null (open)
+		let inter = intermagnet.find(entry => entry.member_to === null);
+		
+		// If none are open, use the last one
+		if (!inter) {
+			inter = intermagnet[intermagnet.length - 1];
 		}
-
+		
+		let openClosed = inter.member_to ? 'closed' : 'imo';
 		const location = locations[0] || {};
 		const lat = parseFloat(location.latitude);
 		const lon = parseFloat(location.longitude);
@@ -34,7 +46,9 @@ const getObsDetails = function getObsDetails(state) {
 
 		const gin = inter.intermagnet_gin_code || undefined;
 		const communication = inter.gin_comms || undefined;
-		const publication = [inter.plot_delay, "source", "delay"] || undefined;
+		const publication_del = inter.publication_delay != null
+			? [String(inter.publication_delay), "source", "delay"]
+			: ["source", "delay"];
 
 		const contacts = persons.map(p =>
 			`${p.family_name}_${p.given_name}`.replace(/\s+/g, '')
@@ -58,7 +72,8 @@ const getObsDetails = function getObsDetails(state) {
 				country = match[1].toLowerCase();
 			}
 		}
-
+		
+		// push structure needed for intermagnet UI
 		result.push({
 			id: iaga,
 			iaga,
@@ -72,8 +87,8 @@ const getObsDetails = function getObsDetails(state) {
 			latitude_region,
 			longitude: lon,
 			contacts,
-			orientation: orientations || undefined,
-			publication: publication || undefined,
+			orientation: orientations,
+			publication: publication_del,
 			status: openClosed,
 			instruments_ml,
 			country
@@ -83,5 +98,5 @@ const getObsDetails = function getObsDetails(state) {
 	return result;
 }
 
-
-export default getObsDetails
+// export
+export default getObsDetails;
