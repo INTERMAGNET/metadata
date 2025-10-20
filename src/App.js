@@ -11,7 +11,7 @@ import 'leaflet/dist/leaflet.css';
 
 import React from 'react';
 import { HashRouter, Route, Link } from "react-router-dom";
-import { Navbar, Nav, Container, Row } from 'react-bootstrap';
+import { Navbar, Nav, Container, Row, Alert } from 'react-bootstrap';
 
 // Hooks
 import useMetaDataApi from './hooks/useMetaDataApi';
@@ -29,20 +29,94 @@ import InstitutesContext from './contexts/institutes-context';
 import ContactsContext from './contexts/contacts-context';
 import DefinitiveContext from './contexts/definitive-context';
 
+// Utils
+import getContacts from './utils/get-contacts'
+import getInstDetails from './utils/get-institutes'
+import getObsDetails from './utils/get-observatories'
+
+// hook to manage metadata loading
+const useAllMetadata = () => {
+  const [definitiveState] = useMetaDataApi('https://wdcapi.bgs.ac.uk/metadata/intermagnet-definitive-catalogue');
+  const [observatoryState] = useMetaDataApi('https://wdcapi.bgs.ac.uk/metadata/observatory-metadata?intermagnet=true&historical_instruments=false');
+  
+  // Combine loading states
+  const isLoading = definitiveState.isLoading || observatoryState.isLoading;
+  const hasError = definitiveState.isError || observatoryState.isError;
+  const allDataLoaded = definitiveState.data && observatoryState.data && !isLoading && !hasError;
+  
+  // Process data when both API calls have completed successfully
+  const processedData = allDataLoaded
+  ? {
+      definitive: definitiveState.data,
+      institutes: getInstDetails(observatoryState),
+      observatories: getObsDetails(observatoryState),
+      contacts: getContacts(observatoryState)
+    }
+  : null;
+  
+  return {
+    isLoading,
+    hasError,
+    allDataLoaded,
+    processedData,
+    definitiveState,
+    observatoryState
+  };
+};
+
 const App = () => {
-  const [ contactsState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/contacts/?format=json');
-  const [ definitiveState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/definitive/?format=json');
-  const [ institutesState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/institutes/?format=json');
-  const [ intermagnetState ] = useMetaDataApi('https://geomag.bgs.ac.uk/im_mdata/imag_reports/intermagnet/?format=json');
+
+  // get loading/error state using hook
+  const {
+    isLoading,
+    hasError,
+    allDataLoaded,
+    processedData,
+    definitiveState,
+    observatoryState
+  } = useAllMetadata();
+
+  // Error handling if API is down
+  if (hasError) {
+    return (
+      <HashRouter basename="/">
+        <Navbar bg="primary" variant="dark" expand="lg">
+          <Navbar.Brand href="https://intermagnet.github.io/">INTERMAGNET</Navbar.Brand>
+        </Navbar>
+        <Container className="mt-4">
+          <Alert variant="danger">
+            <Alert.Heading>Error Loading Data</Alert.Heading>
+            <p>
+              Failed to fetch data. Please try refreshing the page.
+            </p>
+            <p>
+              Metadata access: <a href="https://wdcapi.bgs.ac.uk/docs" target="_blank" rel="noopener noreferrer">https://wdcapi.bgs.ac.uk/docs</a>
+            </p>
+            <hr />
+            <div className="mb-0">
+              <ul className="list-disc ml-4">
+                {definitiveState.isError && <li>Definitive data catalogue failed to load</li>}
+                {observatoryState.isError && <li>Observatory metadata and contacts failed to load</li>}
+              </ul>
+            </div>
+          </Alert>
+        </Container>
+      </HashRouter>
+    );
+  }
 
   return (
     <HashRouter basename="/">
-      <Loader
-        contactsState={contactsState}
-        definitiveState={definitiveState}
-        institutesState={institutesState}
-        intermagnetState={intermagnetState}
-      />
+      {/* Show loading indicator while data is being fetched */}
+      {/* Using WDC API we have 2 loading states, not 4, but visually we can keep all 4*/}
+      {isLoading && (
+        <Loader
+          contactsState={observatoryState}
+          definitiveState={definitiveState}
+          institutesState={observatoryState}
+          intermagnetState={observatoryState}
+        />
+      )}
 
       <Navbar bg="primary" variant="dark" expand="lg">
         <Navbar.Brand href="https://intermagnet.github.io/">INTERMAGNET</Navbar.Brand>
@@ -52,17 +126,19 @@ const App = () => {
             <Nav.Link as={Link} to="/map">Map of Observatories</Nav.Link>
             <Nav.Link as={Link} to="/imos">List of Observatories</Nav.Link>
             <Nav.Link as={Link} to="/institutes">List of Institutes</Nav.Link>
-            <Nav.Link as={Link} to="/definitives">Definitive Data Catologue</Nav.Link>
+            <Nav.Link as={Link} to="/definitives">Definitive Data Catalogue</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
 
-      <Container fluid className='main-content'>
-        <Row>
-          <ObservatoriesContext.Provider value={intermagnetState.data} >
-              <InstitutesContext.Provider value={institutesState.data} >
-                <ContactsContext.Provider value={contactsState.data} >
-                  <DefinitiveContext.Provider value={definitiveState.data}>
+      {/* Only render main content when all data is loaded */}
+      {allDataLoaded && processedData && (
+        <Container fluid className='main-content'>
+          <Row>
+            <ObservatoriesContext.Provider value={processedData.observatories}>
+              <InstitutesContext.Provider value={processedData.institutes}>
+                <ContactsContext.Provider value={processedData.contacts}>
+                  <DefinitiveContext.Provider value={processedData.definitive}>
                     <Route exact path="/" component={ObservatoriesTable} />
                     <Route path="/map" component={ObservatoriesMap} />
                     <Route path="/imos" component={ObservatoriesTable} />
@@ -73,7 +149,8 @@ const App = () => {
               </InstitutesContext.Provider>
             </ObservatoriesContext.Provider>
           </Row>
-      </Container>
+        </Container>
+      )}
     </HashRouter>
   );
 };

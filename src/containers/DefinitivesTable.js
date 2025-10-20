@@ -24,7 +24,7 @@ const Definitives = () => {
           <Col sm={4}>
             <DefinitivesTable
               definitives={definitives}
-              setSelectedObservatories={setSelectedObservatories}  
+              setSelectedObservatories={setSelectedObservatories}
             />
           </Col>
           <Col sm={8}>

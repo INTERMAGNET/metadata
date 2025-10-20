@@ -13,7 +13,7 @@ const COMPLETED_COUNT = 4;
 
 /**
  * Loader text information
- * @param {object} props 
+ * @param {object} props
  */
 const LoaderText = (props) => {
   const {
@@ -86,15 +86,12 @@ const Loader = (props) => {
           isLoading={institutesState.isLoading} isError={institutesState.isError} />
         <LoaderText item='definitive information'
           isLoading={definitiveState.isLoading} isError={definitiveState.isError} />
-        <LoaderText item='intermanget observatory details'
+        <LoaderText item='intermagnet observatory details'
           isLoading={intermagnetState.isLoading} isError={intermagnetState.isError} />
       </Modal.Body>
     </Modal>
   )
 };
-
-
-
 
 const stateObject = {
   isError: PropTypes.bool.isRequired,
