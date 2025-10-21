@@ -6,12 +6,11 @@
 import React, { useState } from 'react';
 import { Col } from 'react-bootstrap';
 
-// Hooks
-import DefinitiveContext from '../contexts/definitive-context';
-
 // Components
 import DefinitivesTable from '../components/DefinitivesTable';
 import ObservatoryMap from '../components/maps/ObservatoriesMap';
+// Hooks
+import DefinitiveContext from '../contexts/definitive-context';
 
 const Definitives = () => {
 

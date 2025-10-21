@@ -6,33 +6,39 @@
 // import the CSS list
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'react-table/react-table.css';
-import 'leaflet/dist/leaflet.css';
-
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
+import iconUrl       from 'leaflet/dist/images/marker-icon.png'
+import shadowUrl     from 'leaflet/dist/images/marker-shadow.png'
 import React from 'react';
-import { HashRouter, Route, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Alert } from 'react-bootstrap';
-
-// Hooks
-import useMetaDataApi from './hooks/useMetaDataApi';
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 
 // Components
 import Loader from './components/Loader';
-import ObservatoriesMap from './containers/ObservatoriesMap';
-import ObservatoriesTable from './containers/ObservatoriesTable';
 import DefinitivesTable from './containers/DefinitivesTable';
 import InstitutesTable from './containers/InstitutesTable';
-
+import ObservatoriesMap from './containers/ObservatoriesMap';
+import ObservatoriesTable from './containers/ObservatoriesTable';
 // Contexts
-import ObservatoriesContext from './contexts/observatories-context';
-import InstitutesContext from './contexts/institutes-context';
 import ContactsContext from './contexts/contacts-context';
 import DefinitiveContext from './contexts/definitive-context';
-
+import InstitutesContext from './contexts/institutes-context';
+import ObservatoriesContext from './contexts/observatories-context';
+// Hooks
+import useMetaDataApi from './hooks/useMetaDataApi';
 // Utils
 import getContacts from './utils/get-contacts'
 import getInstDetails from './utils/get-institutes'
 import getObsDetails from './utils/get-observatories'
+
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl })
+
+// get the base URL for the application
+const basename =
+  (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // remove trailing "/"
 
 // hook to manage metadata loading
 const useAllMetadata = () => {
@@ -79,9 +85,9 @@ const App = () => {
   // Error handling if API is down
   if (hasError) {
     return (
-      <HashRouter basename="/">
+      <BrowserRouter basename={basename}>
         <Navbar bg="primary" variant="dark" expand="lg">
-          <Navbar.Brand href="https://intermagnet.github.io/">INTERMAGNET</Navbar.Brand>
+          <Navbar.Brand href="https://intermagnet.org/">INTERMAGNET</Navbar.Brand>
         </Navbar>
         <Container className="mt-4">
           <Alert variant="danger">
@@ -101,12 +107,12 @@ const App = () => {
             </div>
           </Alert>
         </Container>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 
   return (
-    <HashRouter basename="/">
+    <BrowserRouter basename={basename}>
       {/* Show loading indicator while data is being fetched */}
       {/* Using WDC API we have 2 loading states, not 4, but visually we can keep all 4*/}
       {isLoading && (
@@ -119,7 +125,7 @@ const App = () => {
       )}
 
       <Navbar bg="primary" variant="dark" expand="lg">
-        <Navbar.Brand href="https://intermagnet.github.io/">INTERMAGNET</Navbar.Brand>
+        <Navbar.Brand href="https://intermagnet.org/">INTERMAGNET</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
           <Nav className="mr-auto">
@@ -139,11 +145,14 @@ const App = () => {
               <InstitutesContext.Provider value={processedData.institutes}>
                 <ContactsContext.Provider value={processedData.contacts}>
                   <DefinitiveContext.Provider value={processedData.definitive}>
-                    <Route exact path="/" component={ObservatoriesTable} />
-                    <Route path="/map" component={ObservatoriesMap} />
-                    <Route path="/imos" component={ObservatoriesTable} />
-                    <Route path="/institutes" component={InstitutesTable} />
-                    <Route path="/definitives" component={DefinitivesTable} />
+                    <Routes>
+                      <Route path="/" element={<ObservatoriesTable />} />
+                      <Route path="/map" element={<ObservatoriesMap />} />
+                      <Route path="/imos" element={<ObservatoriesTable />} />
+                      <Route path="/institutes" element={<InstitutesTable />} />
+                      <Route path="/definitives" element={<DefinitivesTable />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
                   </DefinitiveContext.Provider>
                 </ContactsContext.Provider>
               </InstitutesContext.Provider>
@@ -151,7 +160,7 @@ const App = () => {
           </Row>
         </Container>
       )}
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

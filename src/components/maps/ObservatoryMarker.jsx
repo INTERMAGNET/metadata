@@ -4,8 +4,8 @@
  */
 
 // General modules
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { CircleMarker } from 'react-leaflet';
 
 import ObservatoryModal from '../modals/ObservatoryModal';
@@ -23,21 +23,25 @@ const ObservatoryMarker = (props) => {
   } = props;
 
   const [ show, showModal ] = useState(false);
+  const lon = (longitude > 180) ? longitude - 360.0 : longitude;
+
 
   return (
-    <CircleMarker
-      center={[
-        latitude,
-        (longitude > 180) ? longitude - 360.0 : longitude,
-      ]}
-      onClick={() => showModal(true)}
-      color={status === 'imo' ? 'red': 'grey'}
-    >
-      <ObservatoryModal
-        show={show}
-        onHide={() => showModal(false)}
-        iaga={iaga} />
-    </CircleMarker>
+    <>
+      <CircleMarker
+        center={[latitude, lon]}
+        eventHandlers={{ click: () => showModal(true) }}
+        // In v4, use pathOptions for dynamic style updates
+        pathOptions={{ color: status === 'imo' ? 'red' : 'grey' }}
+      />
+      {show && (
+        <ObservatoryModal
+          show
+          onHide={() => showModal(false)}
+          iaga={iaga}
+        />
+      )}
+    </>
   );
 }
 

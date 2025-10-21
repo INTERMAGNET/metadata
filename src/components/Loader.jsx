@@ -3,8 +3,8 @@
  * @author Charles Blais, Natural Resource Canada <charles.blais@canada.ca>
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Modal, Spinner, Alert } from 'react-bootstrap';
 
 // Constants

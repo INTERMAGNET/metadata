@@ -6,11 +6,10 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 
-// Hooks
-import ObservatoriesContext from '../contexts/observatories-context';
-
 // Contexts
 import ObservatoriesTable from '../components/ObservatoriesTable';
+// Hooks
+import ObservatoriesContext from '../contexts/observatories-context';
 
 const Observatories = () => {
   return (

@@ -2,8 +2,8 @@
  * @module hooks/useMetaDataApi
  * @author Charles Blais, Natural Resource Canada <charles.blais@canada.ca>
  */
-import { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
+import { useState, useEffect, useReducer } from 'react';
 
 /**
  * Reducer for hook state
@@ -67,7 +67,7 @@ const useMetaDataApi = (initialUrl, initialData) => {
         if (!didCancel) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
-      } catch (error) {
+      } catch {
         if (!didCancel) {
           dispatch({ type: 'FETCH_FAILURE' });
         }

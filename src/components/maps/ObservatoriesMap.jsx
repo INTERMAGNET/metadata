@@ -4,11 +4,12 @@
  */
 
 // General modules
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, LayersControl, TileLayer } from 'react-leaflet';
+import React from 'react';
+import { MapContainer, LayersControl, TileLayer } from 'react-leaflet';
 
 import ObservatoriesContext from '../../contexts/observatories-context';
+
 import ObservatoryMarker from './ObservatoryMarker';
 
 /**
@@ -53,7 +54,7 @@ const ObservatoriesMap = (props) => {
           />);
         });
         return (
-          <Map center={center} zoom={zoom}>
+          <MapContainer center={center} zoom={zoom}>
             <LayersControl position='topright'>
               <LayersControl.BaseLayer name="Streets">
                 <TileLayer
@@ -69,7 +70,7 @@ const ObservatoriesMap = (props) => {
               </LayersControl.BaseLayer>
             </LayersControl>
             { markers }
-          </Map>
+          </MapContainer>
         );
       }}
     </ObservatoriesContext.Consumer>

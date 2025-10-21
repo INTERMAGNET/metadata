@@ -3,18 +3,38 @@
  * @author Charles Blais, Natural Resources Canada <charles.blais@canada.ca>
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
-
+import React from 'react';
 import { Container, Row, Col, Table, Modal } from 'react-bootstrap';
-import { Map, TileLayer, CircleMarker } from 'react-leaflet';
-
-import ObservatoriesContext from '../../contexts/observatories-context';
-import InstitutesContext from '../../contexts/institutes-context';
-import ContactsContext from '../../contexts/contacts-context';
+import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 
 import { COUNTRY_CODES } from '../../constants';
+import ContactsContext from '../../contexts/contacts-context';
+import InstitutesContext from '../../contexts/institutes-context';
+import ObservatoriesContext from '../../contexts/observatories-context';
 
+/**
+ * Child component rendered inside MapContainer that safely invalidates
+ * the Leaflet map size once the map exists and the Modal has opened.
+ * This avoids errors where map is undefined and ensures tiles/layout render correctly.
+ */
+function InvalidateSizeOnMount({ delay = 100 }) {
+  const map = useMap(); // provided via MapContainer context
+  React.useEffect(() => {
+    if (!map) return;
+    const id = setTimeout(() => {
+      map.invalidateSize(); // recompute size after mount/modal animation
+    }, delay);
+    return () => clearTimeout(id);
+  }, [map, delay]);
+  return null;
+}
+
+
+// Validate props for the internal map helper
+InvalidateSizeOnMount.propTypes = {
+  delay: PropTypes.number,
+};
 
 /**
  * Search the object with the key value pair
@@ -132,6 +152,26 @@ const ObservatoryModalBody = (props) => {
   )
 }
 
+// Validate the 'observatory' prop used by the modal body
+ObservatoryModalBody.propTypes = {
+  observatory: PropTypes.shape({
+    // Core fields passed through to table/map (keep in sync with child propTypes)
+    iaga: PropTypes.string,
+    name: PropTypes.string,
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+    elevation: PropTypes.number,
+    country: PropTypes.string,
+    status: PropTypes.string,
+    gin: PropTypes.string,
+    // Collections
+    institutes: PropTypes.arrayOf(PropTypes.object),
+    contacts: PropTypes.arrayOf(PropTypes.object),
+    instruments: PropTypes.arrayOf(PropTypes.string),
+    // Optional source used to derive instruments
+    instruments_ml: PropTypes.array,
+  }).isRequired,
+};
 
 /**
  * React - Observatory Modal Table
@@ -313,9 +353,8 @@ const ObservatoryModalMap = (props) => {
   const zoom = 14;
 
   return (
-    <Map center={center} zoom={zoom}
-      style={{height: '400px', width: '100%'}}
-      ref={(map) => (map) ? setTimeout(() => map.leafletElement.invalidateSize(true), 100):null}>
+    <MapContainer center={center} zoom={zoom} style={{ height: '400px', width: '100%' }}>
+      <InvalidateSizeOnMount delay={100} />
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -324,9 +363,9 @@ const ObservatoryModalMap = (props) => {
         center={[latitude, lonCorrected]}
         color={status === 'imo' ? 'red': 'grey'}
       />
-    </Map>
-  )
-}
+    </MapContainer>
+  );
+};
 
 ObservatoryModalMap.propTypes = {
   latitude: PropTypes.number.isRequired,
