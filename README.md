@@ -35,16 +35,17 @@ To run the project:
     npm run dev
 ```
 
-This will run a server in the background and launch a web browser window where you can interact with the project components. The page will reload if you make edits. You will also see any lint errors in the console (you can run the linter separately: ```npm run lint```). The console also has a simple command structure allowing you to interact with the server - to see the available commands type "h<ENTER>".
+This will run a development server in the background and launch a web browser window where you can interact with the project components. The page will reload if you make edits. You will also see any lint errors in the console (you can run the linter separately: ```npm run lint```). The console also has a simple command structure allowing you to interact with the server - to see the available commands type "h<ENTER>".
+
+To preview the project:
+
+```
+    npm run build
+    npm run preview
+```
+
+This will build the project's static pages in the ./dist folder, then run a web server to view these static pages. This mirrors the action taken during deployment, so is a further check that the project is working correctly before commiting changes to GitHub.
 
 ## Deploying the project
 
-npm run build
-npm run preview
-npm run deploy
-
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
+A GitHub action (in .github/workflows/pages.yml) builds the Vite + React app and deploys the resulting static site to GitHub Pages. All pushes to the default branch on GitHub will trigger the deployment of the site (pushes to other branches will not cause a deployment to take place).
