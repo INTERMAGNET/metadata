@@ -117,9 +117,7 @@ const App = () => {
       {/* Using WDC API we have 2 loading states, not 4, but visually we can keep all 4*/}
       {isLoading && (
         <Loader
-          contactsState={observatoryState}
           definitiveState={definitiveState}
-          institutesState={observatoryState}
           intermagnetState={observatoryState}
         />
       )}
