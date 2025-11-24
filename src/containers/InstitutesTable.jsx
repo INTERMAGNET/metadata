@@ -8,7 +8,6 @@ import { Col } from 'react-bootstrap';
 
 // Components
 import InstitutesTable from '../components/InstitutesTable';
-
 // Contexts
 import InstitutesContext from '../contexts/institutes-context';
 import ObservatoriesContext from '../contexts/observatories-context';

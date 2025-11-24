@@ -8,7 +8,6 @@ import { Col } from 'react-bootstrap';
 
 // Components
 import ObservatoriesMap from '../components/maps/ObservatoriesMap';
-
 // Hooks
 import ObservatoriesContext from '../contexts/observatories-context';
 
