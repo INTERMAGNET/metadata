@@ -13,7 +13,7 @@ import iconUrl       from 'leaflet/dist/images/marker-icon.png'
 import shadowUrl     from 'leaflet/dist/images/marker-shadow.png'
 import React from 'react';
 import { Navbar, Nav, Container, Row, Alert } from 'react-bootstrap';
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 
 // Components
 import Loader from './components/Loader';
@@ -37,8 +37,8 @@ delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl })
 
 // get the base URL for the application
-const basename =
-  (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // remove trailing "/"
+//const basename =
+//  (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // remove trailing "/"
 
 // hook to manage metadata loading
 const useAllMetadata = () => {
@@ -85,7 +85,7 @@ const App = () => {
   // Error handling if API is down
   if (hasError) {
     return (
-      <BrowserRouter basename={basename}>
+      <HashRouter>
         <Navbar bg="primary" variant="dark" expand="lg">
           <Navbar.Brand href="https://intermagnet.org/">INTERMAGNET</Navbar.Brand>
         </Navbar>
@@ -107,12 +107,12 @@ const App = () => {
             </div>
           </Alert>
         </Container>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 
   return (
-    <BrowserRouter basename={basename}>
+    <HashRouter>
       {/* Show loading indicator while data is being fetched */}
       {/* Using WDC API we have 2 loading states, not 4, but visually we can keep all 4*/}
       {isLoading && (
@@ -158,7 +158,7 @@ const App = () => {
           </Row>
         </Container>
       )}
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
