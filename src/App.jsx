@@ -87,6 +87,12 @@ const App = () => {
     return (
       <HashRouter>
         <Navbar bg="primary" variant="dark" expand="lg">
+          <img
+              src="intermagnet-logo.png" // Start met een slash, dit verwijst naar de public-map
+              width="30"
+              height="30"
+              className="d-inline-block align-top ms-2 me-2"
+          />
           <Navbar.Brand href="https://intermagnet.org/">INTERMAGNET</Navbar.Brand>
         </Navbar>
         <Container className="mt-4">
@@ -123,6 +129,12 @@ const App = () => {
       )}
 
       <Navbar bg="primary" variant="dark" expand="lg">
+        <img
+            src="intermagnet-logo.png" // Start met een slash, dit verwijst naar de public-map
+            width="30"
+            height="30"
+            className="d-inline-block align-top ms-2 me-2"
+        />
         <Navbar.Brand href="https://intermagnet.org/">INTERMAGNET</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
