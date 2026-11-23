@@ -13,7 +13,7 @@ const getContacts = function getContacts(state) {
 	data
 		.forEach(entry => {
 			entry.persons.forEach(person => {
-				const nameID = `${person.family_name}_${person.given_name}`;
+				const nameID = `${person.family_name}_${person.given_name}`.replace(/\s+/g, '');
 				if (!uniqueContacts.has(nameID)) {
 					uniqueContacts.add(nameID);
 
